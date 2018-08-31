@@ -19,8 +19,8 @@ import com.healthmarketscience.jackcess.Row;
 import com.healthmarketscience.jackcess.Table;
 
 import dbtool.msaccess2mysql.util.MsAccessConnect;
-import dbtool.msaccess2mysql.util.MySQLConnect;
-import util.CommonUtil;
+import main.utils.CommonUtil;
+import main.utils.MySQLConnect;
 
 public class MsAccess2MySQL {
 	final static Logger logger = Logger.getLogger(MsAccess2MySQL.class);

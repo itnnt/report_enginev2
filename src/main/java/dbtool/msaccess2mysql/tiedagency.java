@@ -1,6 +1,9 @@
 package dbtool.msaccess2mysql;
 
 import java.util.Arrays;
+import java.util.Properties;
+
+import main.utils.Utils;
 
 /**
  * Hello world!
@@ -9,8 +12,14 @@ import java.util.Arrays;
 public class tiedagency {
 
 	public static void main(String[] args) {
-		MsAccess2MySQL msAccess2MySQL = new MsAccess2MySQL("E:\\DA_DATA\\KPI_PRODUCTION.accdb"); 
-		MsAccess2MySQL msAccess2MySQL_persistency = new MsAccess2MySQL("E:\\DA_DATA\\PERSISTENCY_PRODUCTION.accdb"); 
+		Properties systemProperties = Utils.loadSystemProperties("config_msaccess_file.properties");
+		String m0Start = systemProperties.getProperty("m0Start");
+		
+		MsAccess2MySQL msAccess2MySQL = new MsAccess2MySQL(systemProperties.getProperty("KPI_PRODUCTION")); 
+		MsAccess2MySQL msAccess2MySQL_persistency = new MsAccess2MySQL(systemProperties.getProperty("PERSISTENCY_PRODUCTION")); 
+		
+//		MsAccess2MySQL msAccess2MySQL = new MsAccess2MySQL("E:\\DA_DATA\\KPI_PRODUCTION.accdb"); 
+//		MsAccess2MySQL msAccess2MySQL_persistency = new MsAccess2MySQL("E:\\DA_DATA\\PERSISTENCY_PRODUCTION.accdb"); 
 		
 		msAccess2MySQL.createOrAlterTableThenTruncateBeforeInsert("GATotal", "raw_gatotal_update", Arrays.asList(new String[] {}), Arrays.asList(new String[] {}));
 		msAccess2MySQL.createOrAlterTableThenTruncateBeforeInsert("Manpower_Active Ratio", "raw_manpower_active_ratio_update", Arrays.asList(new String[] {}), Arrays.asList(new String[] {}));
@@ -25,7 +34,7 @@ public class tiedagency {
 		msAccess2MySQL_persistency.createOrAlterTableThenTruncateBeforeInsert("persistency_y1", "raw_persistency_y1_update", Arrays.asList(new String[] {}), Arrays.asList(new String[] {}));
 		msAccess2MySQL_persistency.createOrAlterTableThenTruncateBeforeInsert("persistency_y2", "raw_persistency_y2_update", Arrays.asList(new String[] {}), Arrays.asList(new String[] {}));
 		
-		msAccess2MySQL.runStoreProcedureOnMySQL("call job_update_data_tiedagency('2018-07-01');");
+		msAccess2MySQL.runStoreProcedureOnMySQL("call job_update_data_tiedagency('" + m0Start + "');");
 		msAccess2MySQL.closeAllConnections();
 	}
 }

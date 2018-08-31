@@ -18,5 +18,5 @@ rem
 rem a configuration file for log4j logging
 @SET LOG4J_PROPS="-Dlog4j.configuration=file:%WD%log4j.properties"
 
-"java" -cp %QUARTZ_CP% %LOG4J_PROPS% -Xms1024m -Xmx2048m -XX:-UseGCOverheadLimit gvl.dom.exceltool.AgencyMonthlyPlanningTesting
+"java" -cp %QUARTZ_CP% %LOG4J_PROPS% -Xms1024m -Xmx2048m -XX:-UseGCOverheadLimit dbtool.msaccess2mysql.tiedagency
 cmd /k 
