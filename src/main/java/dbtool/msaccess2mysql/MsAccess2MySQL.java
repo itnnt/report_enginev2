@@ -190,6 +190,7 @@ public class MsAccess2MySQL {
 				}	
 			}
 		} catch (Exception e) {
+			System.out.println("========================" + accessTablename);
 			e.printStackTrace();
 		} finally {
 		}
