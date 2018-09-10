@@ -468,6 +468,82 @@ public class TiedAgencyPerformanceReport {
 			}
 		}
 	}
+	public void fetchDataForDataCasecountMomSheetCancelExcl(String excelTemplate, String excelReport, String sheetname,
+			String inputPeriodFrom, String inputPeriodTo, int rowindex) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call report_casecount_alllevels_cancel_excluded(\"{0}\", \"{1}\", {2});",
+					inputPeriodFrom, inputPeriodTo, rowindex);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void fetchDataForDataNewrecruitMomSheet(String excelTemplate, String excelReport, String sheetname,
 			String inputPeriodFrom, String inputPeriodTo, int rowindex) {
@@ -1013,6 +1089,82 @@ public class TiedAgencyPerformanceReport {
 			}
 		}
 	}
+	public void fetchDataForDataCasesizeMomSheetCancelExclude(String excelTemplate, String excelReport, String sheetname,
+			String inputPeriodFrom, String inputPeriodTo, int rowindex) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call report_casesize_alllevels_cancel_exclude(\"{0}\", \"{1}\", {2});", inputPeriodFrom,
+					inputPeriodTo, rowindex);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void fetchDataForDataCaseperactiveMomSheet(String excelTemplate, String excelReport, String sheetname,
 			String inputPeriodFrom, String inputPeriodTo, int rowindex) {
@@ -1056,6 +1208,82 @@ public class TiedAgencyPerformanceReport {
 			fos = new FileOutputStream(fileSavedTo);
 			book.write(fos);
 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fetchDataForDataCaseperactiveMomSheetCancelExcluded(String excelTemplate, String excelReport, String sheetname,
+			String inputPeriodFrom, String inputPeriodTo, int rowindex) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call report_caseperactive_alllevels_cancel_excl(\"{0}\", \"{1}\", {2});",
+					inputPeriodFrom, inputPeriodTo, rowindex);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1559,6 +1787,84 @@ public class TiedAgencyPerformanceReport {
 			}
 		}
 	}
+	public void fetchDataForDataRookie90daysSheetCancelExcluded(String excelTemplate, String excelReport, String inputPeriodFrom,
+			String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		final String sheetname = "data_rookie90days";
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format(
+					"call report_dynamic_rookie_performance_tiedagency_alllevels_cancelexl(\"{0}\", \"{1}\" );", inputPeriodFrom,
+					inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void fetchDataForProductMixAPESheet(String excelTemplate, String excelReport, String inputPeriodFrom,
 			String inputPeriodTo) {
@@ -1603,6 +1909,83 @@ public class TiedAgencyPerformanceReport {
 			fos = new FileOutputStream(fileSavedTo);
 			book.write(fos);
 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fetchDataForProductMixAPESheetCancelExclude(String excelTemplate, String excelReport, String inputPeriodFrom,
+			String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		final String sheetname = "data_product_mix_ape";
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call report_product_mix_group_level_cancel_exclude(\"{0}\", \"{1}\" );",
+					inputPeriodFrom, inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1715,6 +2098,83 @@ public class TiedAgencyPerformanceReport {
 			}
 		}
 	}
+	public void fetchDataForProductMixRiderSheetCancelExcluded(String excelTemplate, String excelReport, String inputPeriodFrom,
+			String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		final String sheetname = "data_product_rider_mix";
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call report_product_mix_group_level_rider_v1_cancel_excluded(\"{0}\", \"{1}\" );",
+					inputPeriodFrom, inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void fetchDataForProductMixTotalSheet(String excelTemplate, String excelReport, String inputPeriodFrom,
 			String inputPeriodTo) {
@@ -1759,6 +2219,83 @@ public class TiedAgencyPerformanceReport {
 			fos = new FileOutputStream(fileSavedTo);
 			book.write(fos);
 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fetchDataForProductMixTotalSheetCancelExcluded(String excelTemplate, String excelReport, String inputPeriodFrom,
+			String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		final String sheetname = "data_product_mix_total";
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call report_product_mix_group_level_total_cancel_excluded(\"{0}\", \"{1}\" );",
+					inputPeriodFrom, inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1838,6 +2375,84 @@ public class TiedAgencyPerformanceReport {
 			fos = new FileOutputStream(fileSavedTo);
 			book.write(fos);
 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fetchDataForProductMixCountSheetCancelExcluded(String excelTemplate, String excelReport, String inputPeriodFrom,
+			String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		final String sheetname = "data_product_rider_mix_count";
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format(
+					"call report_product_mix_group_level_rider_v1_cp_cancelexcl(\"{0}\", \"{1}\" );", inputPeriodFrom,
+					inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2071,6 +2686,83 @@ public class TiedAgencyPerformanceReport {
 			fos = new FileOutputStream(fileSavedTo);
 			book.write(fos);
 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fetchDataForCasecountSegDtlSheetCancelExcluded(String excelTemplate, String excelReport, String inputPeriodFrom,
+			String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		final String sheetname = "data_detail_in_segment_cscnt";
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call tiedagency_casecount_report_dynamic_cancel_exclude(\"{0}\", \"{1}\" , 7);",
+					inputPeriodFrom, inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2386,6 +3078,84 @@ public class TiedAgencyPerformanceReport {
 			fos = new FileOutputStream(fileSavedTo);
 			book.write(fos);
 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fetchDataForSheet_data_detail_seg_chart_y0_case_cancel_excluded(String excelTemplate, String excelReport,
+			String inputPeriodFrom, String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		final String sheetname = "data_detail_seg_chart_y0_case";
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format(
+					"call report_dynamic_sheet_data_detail_seg_chart_y0_case_cancel_exl(\"{0}\", \"{1}\" , 7);",
+					inputPeriodFrom, inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2882,6 +3652,82 @@ public class TiedAgencyPerformanceReport {
 			}
 		}
 	}
+	public void fetchDataForSheet_data_casesize_total_cancel_exclude(String excelTemplate, String excelReport, String sheetname,
+			String inputPeriodFrom, String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call tiedagency_report_dynamic_casesize_cancel_exclude(\"{0}\", \"{1}\", 3 );",
+					inputPeriodFrom, inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public void fetchDataForSheet_data_caseperactive_total(String excelTemplate, String excelReport, String sheetname,
 			String inputPeriodFrom, String inputPeriodTo) {
 		final int SECTOR_COLUMNINDEX = -1;
@@ -2913,6 +3759,82 @@ public class TiedAgencyPerformanceReport {
 			
 			// ending manpower
 			sqlcommand = MessageFormat.format("call tiedagency_report_dynamic_case_per_active(\"{0}\", \"{1}\", 3 );",
+					inputPeriodFrom, inputPeriodTo);
+			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
+			// write the result set to the excel
+			XLSXReadWriteHelper.write(book, cellStyle2, sheetname, SECTOR_ENDINGMP_ROWINDEX, SECTOR_COLUMNINDEX, rs);
+			
+			// write to the new file
+			File fileSavedTo = new File(excelReport);
+			// open an OutputStream to save written data into Excel file
+			fos = new FileOutputStream(fileSavedTo);
+			book.write(fos);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// Close workbook, OutputStream and Excel file to prevent leak
+			try {
+				fos.close();
+				book.close();
+				fis.close();
+				if(rs != null) {
+					rs.close();
+				}
+				// Closing PreparedStatement Object
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				// Closing Connection Object
+				if(connObj != null) {
+					connObj.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fetchDataForSheet_data_caseperactive_total_cancelexcl(String excelTemplate, String excelReport, String sheetname,
+			String inputPeriodFrom, String inputPeriodTo) {
+		final int SECTOR_COLUMNINDEX = -1;
+		final int SECTOR_ENDINGMP_ROWINDEX = 0;
+		
+		FileInputStream fis = null;
+		XSSFWorkbook book = null;
+		FileOutputStream fos = null;
+		
+		String sqlcommand = null;
+		ResultSet rs = null; Connection connObj = null;	PreparedStatement pstmt = null;
+		
+		try {
+			// open the template
+			File fileTemplate = new File(excelTemplate);
+			fis = new FileInputStream(fileTemplate);
+			book = new XSSFWorkbook(fis);
+			// CellStyle cellStyle1 = book.createCellStyle();
+			// CellStyle cellStyle2 = book.createCellStyle();
+			CellStyle cellStyle2 = null;
+			// CellStyle cellStyle3 = book.createCellStyle();
+			// CreationHelper createHelper = book.getCreationHelper();
+			// cellStyle2.setDataFormat(createHelper.createDataFormat().getFormat("#,##0"));
+			// cellStyle3.setDataFormat(createHelper.createDataFormat().getFormat("#,##0.0"));
+			
+			// fetch data from the database
+			
+			connObj = dataSource.getConnection();
+			
+			// ending manpower
+			sqlcommand = MessageFormat.format("call tiedagency_report_dynamic_case_per_active_cancel_exl(\"{0}\", \"{1}\", 3 );",
 					inputPeriodFrom, inputPeriodTo);
 			pstmt = connObj.prepareStatement(sqlcommand); rs = pstmt.executeQuery();
 			// write the result set to the excel

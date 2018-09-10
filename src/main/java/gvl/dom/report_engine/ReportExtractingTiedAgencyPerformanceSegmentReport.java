@@ -17,6 +17,7 @@ public class ReportExtractingTiedAgencyPerformanceSegmentReport {
 		String y0 = systemProperties.getProperty("y0");
 		String y0End = systemProperties.getProperty("y0End");
 		String m0End = systemProperties.getProperty("m0End");
+		Integer sectorColumnIndex = Integer.valueOf(systemProperties.getProperty("SECTOR_COLUMNINDEX"));
 		
 //		String excelTemplate = "E:\\eclipse-workspace\\report_engine\\src\\main\\resources\\MONTHLY_AGENCY_SEGMENTATION_REPORT_template.xlsx";
 //		String excelReport = "E:\\eclipse-workspace\\report_engine\\src\\main\\resources\\MONTHLY_AGENCY_SEGMENTATION_REPORT_2018-07-31-RESULT.xlsx";
@@ -26,7 +27,7 @@ public class ReportExtractingTiedAgencyPerformanceSegmentReport {
 //		String m0End = "2018-07-31";
 		
 		TiedAgencyPerformanceSegmentReport tiedAgencyPerformanceSegmentReport = new TiedAgencyPerformanceSegmentReport();
-		
+		tiedAgencyPerformanceSegmentReport.SECTOR_COLUMNINDEX = sectorColumnIndex;
 		if(logger.isInfoEnabled()){
 			logger.info("Updating data for Cover sheet");
 		}

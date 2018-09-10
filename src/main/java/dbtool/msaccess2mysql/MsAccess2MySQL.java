@@ -163,12 +163,16 @@ public class MsAccess2MySQL {
 						tem.add("'" + value + "'");
 					} else if (column.getType() == DataType.SHORT_DATE_TIME) {
 						/* remove ICT from the string before converting */
-						String temDate = value.toString();
-						temDate = temDate.replace("ICT ", "");
-						SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
-						Date temDateVal = dateFormat.parse(temDate);
+//						String temDate = value.toString();
+//						temDate = temDate.replace("ICT ", "");
+//						SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
+//						Date temDateVal = dateFormat.parse(temDate);
+//						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//						tem.add("'" + df.format(temDateVal) + "'");
+						
 						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-						tem.add("'" + df.format(temDateVal) + "'");
+						tem.add("'" + df.format(value) + "'");
+						
 					} else {
 						tem.add(value.toString());
 					}

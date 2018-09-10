@@ -43,6 +43,8 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -445,6 +447,99 @@ public class XLSXReadWriteHelper {
 					continue; //for
 				} else if  (element instanceof Date) {
 					newCell.setCellValue((Date) element);
+					continue; //for
+				}
+			}
+			++rownum;
+		}
+		
+		return rownum + ":" + colnum;
+	}
+	/**
+	 * Write [rows] to the [sheetName] of the [book] at the row number [rownum]
+	 * 
+	 * @param book
+	 * @param cellStyle
+	 * @param sheetName
+	 * @param rownum
+	 * @param rows
+	 * @return
+	 * @throws IOException
+	 * @throws SQLException 
+	 */
+	public static String writeLargeFile(SXSSFWorkbook book, CellStyle cellStyle, String sheetName, int rownum, int colnum, ResultSet rows)
+			throws IOException, SQLException {
+		SXSSFSheet sheet = book.getSheet(sheetName);
+//		SXSSFSheet sheet = book.createSheet(sheetName);
+		// Refreshing all the formulas in a sheet
+		sheet.setForceFormulaRecalculation(true);
+		// get total column count from the result set rows
+		int numberOfcols = rows.getMetaData().getColumnCount();
+		System.out.println(numberOfcols);
+		CreationHelper createHelper = book.getCreationHelper();
+		CellStyle datestyle = book.createCellStyle(); 
+		datestyle.setDataFormat(createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
+		
+		
+		// loop through each row
+		while (rows.next()) {
+			// check if result set is at the first row, then I write the column name first
+			if (rows.isFirst()) {
+				Row headerRow = sheet.getRow(rownum);
+				if (headerRow == null) {
+					headerRow = sheet.createRow(rownum);
+				}
+				for (int i = 1; i <= numberOfcols; ++i) {
+					// each element will be set to a new cell, so I create a new cell/or get
+					// available cell from the newRow
+					Cell newCell = headerRow.getCell(colnum + i);
+					if (newCell == null) {
+						newCell = headerRow.createCell(colnum + i);
+					}
+					newCell.setCellValue(rows.getMetaData().getColumnName(i));
+				}
+				++rownum;
+			}
+			
+			// get the excel row at the next position [rownum] from the sheet, if not exist
+			// then create one
+			Row newRow = sheet.getRow(rownum);
+			if (newRow == null) {
+				newRow = sheet.createRow(rownum);
+			}
+			// loop through each element of the row in the result set
+			for (int i = 1; i <= numberOfcols; ++i) {
+				Object element = rows.getObject(i);
+				// each element will be set to a new cell, so I create a new cell/or get
+				// available cell from the newRow
+				Cell newCell = newRow.getCell(colnum + i);
+				if (newCell == null) {
+					newCell = newRow.createCell(colnum + i);
+				}
+				// check cell's value type and set to the new cell
+				if (element instanceof String) {
+					newCell.setCellValue((String) element);
+					continue; //for
+				} else if (element instanceof Integer) {
+					newCell.setCellValue((Integer) element);
+					if (null != cellStyle) newCell.setCellStyle(cellStyle);
+					continue; //for
+				} else if (element instanceof BigDecimal) {
+					newCell.setCellValue(((BigDecimal) element).doubleValue());
+					if (null != cellStyle) newCell.setCellStyle(cellStyle); 
+					continue; //for
+				} else if (element instanceof Double) {
+					newCell.setCellValue(((Double) element));
+					if (null != cellStyle) newCell.setCellStyle(cellStyle);
+					continue; //for
+				} else if (element instanceof Long) {
+					Long l = (Long) element;
+					newCell.setCellValue(l.doubleValue());
+					if (null != cellStyle) newCell.setCellStyle(cellStyle);
+					continue; //for
+				} else if  (element instanceof Date) {
+					newCell.setCellValue((Date) element);
+					newCell.setCellStyle(datestyle);
 					continue; //for
 				}
 			}

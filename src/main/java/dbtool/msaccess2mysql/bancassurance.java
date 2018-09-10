@@ -3,6 +3,8 @@ package dbtool.msaccess2mysql;
 import java.util.Arrays;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import main.utils.Utils;
 
 /**
@@ -10,7 +12,7 @@ import main.utils.Utils;
  *
  */
 public class bancassurance {
-
+	final static Logger logger = Logger.getLogger(bancassurance.class);
 	public static void main(String[] args) {
 		Properties systemProperties = Utils.loadSystemProperties("config_msaccess_file.properties");
 		String m0Start = systemProperties.getProperty("m0Start");
@@ -22,5 +24,9 @@ public class bancassurance {
 	
 		msAccess2MySQL.runStoreProcedureOnMySQL("call job_update_data_bancassurance('" + m0Start + "');");
 		msAccess2MySQL.closeAllConnections();
+		
+		if(logger.isInfoEnabled()){
+			logger.info("=== DONE ===");
+		}
 	}
 }
